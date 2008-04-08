@@ -15,13 +15,16 @@ LIBFAT_URL="http://internap.dl.sourceforge.net/sourceforge/devkitpro/libfat-nds-
 DSWIFI_URL="http://internap.dl.sourceforge.net/sourceforge/devkitpro/dswifi-0.3.4.tar.bz2"
 NOCASHGBA_URL="http://nocash.emubase.de/no\$gba-w.zip"
 DOWNLOAD_CACHE_PATH=$HOME'/.devkitpro_cache'
+LOGFILE=$DEVKITPRO_PATH'/install.log'
 
 function msg() {
-    echo \-\>$1
+    echo \-\> $1
+    echo \-\> $1 >>$LOGFILE
 }
 
 function error() {
     echo \-\>ERROR: $1 >&2
+    echo \-\>ERROR: $1 >>$LOGFILE
     exit
 }
 
@@ -59,6 +62,16 @@ function createDir() {
     fi
 }
 
+function checkForErrors() {
+    if [ $? -ne 0 ]
+    then
+        error "Unexpected error: check $LOGFILE for details."
+    fi
+}
+
+echo -n >$LOGFILE
+
+echo
 msg "Building directory tree..."
 createDir $DEVKITPRO_PATH
 
@@ -67,8 +80,10 @@ createDir $DOWNLOAD_CACHE_PATH
 createDir $LIBNDS_PATH
 createDir $NOCASHGBA_PATH
 
-pushd $DOWNLOAD_CACHE_PATH >/dev/null
+pushd $DOWNLOAD_CACHE_PATH >>$LOGFILE
 
+echo
+echo >>$LOGFILE
 msg "Downloading files..."
 download $DEVKITARM_URL
 download $PALIB_URL
@@ -77,17 +92,34 @@ download $LIBFAT_URL
 download $DSWIFI_URL
 download $NOCASHGBA_URL
 
-
+echo
+echo >>$LOGFILE
 msg "Extracting archives..."
-msg "...devkitARM"
-tar xf $(stripURL $DEVKITARM_URL) -C $DEVKITPRO_PATH 
-msg "...PAlib"
-7zr x -o $PALIB_PATH $(stripURL $PALIB_URL)
-msg "...libnds"
-tar xf $(stripURL $LIBNDS_URL) -C $LIBNDS_PATH 
-msg "...libfat"
-tar xf $(stripURL $LIBFAT_URL) -C $LIBNDS_PATH 
-msg "...dswifi"
-tar xf $(stripURL $DSWIFI_URL) -C $LIBNDS_PATH
 
-popd >/dev/null
+msg " ...devkitARM"
+tar xvf $(stripURL $DEVKITARM_URL) -C $DEVKITPRO_PATH >>$LOGFILE
+checkForErrors
+
+msg " ...PAlib"
+7zr x -o$PALIB_PATH -y $(stripURL $PALIB_URL) >>$LOGFILE
+checkForErrors
+
+msg " ...libnds"
+tar xvf $(stripURL $LIBNDS_URL) -C $LIBNDS_PATH >>$LOGFILE
+checkForErrors
+
+msg " ...libfat"
+tar xvf $(stripURL $LIBFAT_URL) -C $LIBNDS_PATH >>$LOGFILE
+checkForErrors
+
+msg " ...dswifi"
+tar xvf $(stripURL $DSWIFI_URL) -C $LIBNDS_PATH >>$LOGFILE
+checkForErrors
+
+msg " ...dswifi"
+unzip $(stripURL $NOCASHGBA_URL) -d $NOCASHGBA_PATH -o >>$LOGFILE
+
+popd >>$LOGFILE
+
+echo
+echo "devkitPRO installed successfully!"
