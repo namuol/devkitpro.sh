@@ -2,10 +2,12 @@
 
 # Edit the following properties to your own taste:
 #  NOTE: PATHECTORY PATHS MUST BE ABSOLUTE
-DEVKITPRO_PATH='/tmp/devkitpro'
+DEVKITPRO_PATH=$HOME'/devkitpro'
 LIBNDS_PATH=$DEVKITPRO_PATH'/libnds'
-NOCASHGBA_PATH=$DEVKITPRO_PATH'/no\$gba'
+NOCASHGBA_PATH=$DEVKITPRO_PATH'/no$gba'
 PALIB_PATH=$DEVKITPRO_PATH
+DOWNLOAD_CACHE_PATH=$HOME'/.devkitpro_cache'
+LOGFILE=$PWD'/install.log'
 
 # File URLS:
 DEVKITARM_URL="http://superb-east.dl.sourceforge.net/sourceforge/devkitpro/devkitARM_r21-linux.tar.bz2"
@@ -14,8 +16,6 @@ LIBNDS_URL="http://internap.dl.sourceforge.net/sourceforge/devkitpro/libnds-2007
 LIBFAT_URL="http://internap.dl.sourceforge.net/sourceforge/devkitpro/libfat-nds-20070127.tar.bz2"
 DSWIFI_URL="http://internap.dl.sourceforge.net/sourceforge/devkitpro/dswifi-0.3.4.tar.bz2"
 NOCASHGBA_URL="http://nocash.emubase.de/no\$gba-w.zip"
-DOWNLOAD_CACHE_PATH=$HOME'/.devkitpro_cache'
-LOGFILE=$DEVKITPRO_PATH'/install.log'
 
 function msg() {
     echo \-\> $1
@@ -29,15 +29,15 @@ function error() {
 }
 
 function download() {
-    if [ ! -e $(stripURL $1) ]
+    if [ ! -e `stripURL $1` ]
     then
-        wget -q -c $1
+        wget -c $1
         if [ $? -ne 0 ]
         then
             error "Failed to download file: $1."
         fi
     else
-        msg "File already exists, not downloading: $(stripURL $1)"
+        msg "File already exists, not downloading: `stripURL $1`"
     fi
 }
 
@@ -58,7 +58,7 @@ function createDir() {
         fi
     
     else
-        msg "$1: directory alreaedy exists."
+        msg "$1: directory already exists."
     fi
 }
 
@@ -116,10 +116,16 @@ msg " ...dswifi"
 tar xvf $(stripURL $DSWIFI_URL) -C $LIBNDS_PATH >>$LOGFILE
 checkForErrors
 
-msg " ...dswifi"
-unzip $(stripURL $NOCASHGBA_URL) -d $NOCASHGBA_PATH -o >>$LOGFILE
+msg " ...NO\$GBA"
+unzip -o $(stripURL $NOCASHGBA_URL) -d $NOCASHGBA_PATH >>$LOGFILE
 
 popd >>$LOGFILE
 
 echo
 echo "devkitPRO installed successfully!"
+echo
+echo "One last step: add/update the following lines in $HOME/.bashrc:"
+echo "export DEVKITPRO=$DEVKITPRO_PATH"
+echo "export DEVKITARM=\$DEVKITPRO/devkitARM"
+echo "export PAPATH=\$DEVKITPRO/PAlib"
+echo "alias nds='wine $NOCASHGBA_PATH/NO\\\$GBA.EXE'"
