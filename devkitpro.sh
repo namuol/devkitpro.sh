@@ -1,33 +1,48 @@
 #!/bin/bash
 
+#
+# devkitpro.sh - simple script to set up a devkitARM/libnds/PALib/uLibrary in Linux.
+# Maintained by Louis Acresti - louis.acresti@gmail.com
+# Last URL update: May 31, 2010
+#
+
 # Edit the following properties to your own taste:
 #  NOTE: DIRECTORY PATHS MUST BE ABSOLUTE
+INSTALL_PALIB="yes"
+INSTALL_ULIB="yes"
+INSTALL_NOCASHGBA="yes"
+
 DEVKITPRO_PATH=$HOME'/devkitpro'
 LIBNDS_PATH=$DEVKITPRO_PATH'/libnds'
+MAXMOD_PATH=$LIBNDS_PATH
+DEFAULT_ARM7_PATH=$LIBNDS_PATH
 LIBNDS_EX_PATH=$LIBNDS_PATH'/examples'
-NOCASHGBA_PATH=$DEVKITPRO_PATH'/nocashgba'
-PALIB_PATH=$DEVKITPRO_PATH
+NOCASHGBA_PATH="$DEVKITPRO_PATH/nocashgba"
+NOCASHGBA_PATH_PRINT="\$DEVKITPRO/nocashgba"
+PALIB_PATH=$DEVKITPRO_PATH'/PAlib'
 ULIB_PATH=$DEVKITPRO_PATH
 ULIB_INC_PATH=$LIBNDS_PATH'/include/ulib'
 ULIB_LIB_PATH=$LIBNDS_PATH'/lib'
 DOWNLOAD_CACHE_PATH=$HOME'/.devkitpro_cache'
-LOGFILE=$PWD'/install.log'
+LOGFILE=$PWD'/devkitpro-install.log'
 
 # File URLS:
 if [ `uname -m` == "x86_64" ]
 then
-  DEVKITARM_URL="http://internap.dl.sourceforge.net/sourceforge/devkitpro/devkitARM_r23-x86_64-linux.tar.bz2"
+  DEVKITARM_URL="http://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r30-x86_64-linux.tar.bz2"
 else
   # Default behavior
-  DEVKITARM_URL="http://internap.dl.sourceforge.net/sourceforge/devkitpro/devkitARM_r23-i686-linux.tar.bz2"
+  DEVKITARM_URL="http://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r30-i686-linux.tar.bz2"
 fi
-PALIB_URL="http://palib.info/downloads/Beta/PALib_CommunityUpdate_BETA-080203.7z"
-LIBNDS_URL="http://internap.dl.sourceforge.net/sourceforge/devkitpro/libnds-20071023.tar.bz2"
-LIBNDS_EX_URL="http://internap.dl.sourceforge.net/sourceforge/devkitpro/nds-examples-20080427.tar.bz2"
-LIBFAT_URL="http://internap.dl.sourceforge.net/sourceforge/devkitpro/libfat-nds-20070127.tar.bz2"
-DSWIFI_URL="http://internap.dl.sourceforge.net/sourceforge/devkitpro/dswifi-0.3.4.tar.bz2"
+DEFAULT_ARM7_URL="http://downloads.sourceforge.net/project/devkitpro/default%20arm7/default_arm7-0.5.12.tar.bz2"
+PALIB_URL="http://www.palib-dev.com/PAlib0912XX_Beta.7z"
+LIBNDS_URL="http://downloads.sourceforge.net/project/devkitpro/libnds/libnds-1.4.3.tar.bz2"
+MAXMOD_URL="http://downloads.sourceforge.net/project/devkitpro/maxmod/maxmod%201.0.6/maxmod-nds-1.0.6.tar.bz2"
+LIBNDS_EX_URL="http://downloads.sourceforge.net/project/devkitpro/examples/nds/nds-examples-20100313.tar.bz2"
+LIBFAT_URL="http://downloads.sourceforge.net/project/devkitpro/libfat/libfat-nds-1.0.7.tar.bz2"
+DSWIFI_URL="http://downloads.sourceforge.net/project/devkitpro/dswifi/dswifi-0.3.12.tar.bz2"
 NOCASHGBA_URL="http://nocash.emubase.de/no\$gba-w.zip"
-ULIB_URL="http://brunni.palib.info/new/dl/nds/uLibrary.rar"
+ULIB_URL="http://brunni.dev-fr.org/dl/nds/uLibrary.7z"
 
 red='\E[31;m'
 green='\E[32;m'
@@ -109,6 +124,7 @@ createDir $LIBNDS_PATH
 createDir $LIBNDS_EX_PATH
 
 createDir $ULIB_PATH
+createDir $PALIB_PATH
 
 createDir $NOCASHGBA_PATH
 
@@ -118,13 +134,27 @@ echo
 echo >>$LOGFILE
 msg "Downloading files..."
 download $DEVKITARM_URL
-download $PALIB_URL
 download $LIBNDS_URL
+download $MAXMOD_URL
+download $DEFAULT_ARM7_URL
 download $LIBNDS_EX_URL
-download $ULIB_URL
 download $LIBFAT_URL
 download $DSWIFI_URL
-download $NOCASHGBA_URL
+
+if [ $INSTALL_PALIB == "yes" ]
+then
+    download $PALIB_URL
+fi
+
+if [ $INSTALL_ULIB == "yes" ]
+then
+    download $ULIB_URL
+fi
+
+if [ $INSTALL_NOCASHGBA == "yes" ]
+then
+    download $NOCASHGBA_URL
+fi
 
 echo
 echo >>$LOGFILE
@@ -134,13 +164,18 @@ msg " ...devkitARM"
 tar xvf $(stripURL $DEVKITARM_URL) -C $DEVKITPRO_PATH >>$LOGFILE
 checkForErrors "Problem extracting $(stripURL $DEVKITARM_URL)"
 
-msg " ...PAlib"
-7zr x -o$PALIB_PATH -y $(stripURL $PALIB_URL) >>$LOGFILE
-checkForErrors "Problem extracting $(stripURL $PALIB_URL)"
 
 msg " ...libnds"
 tar xvf $(stripURL $LIBNDS_URL) -C $LIBNDS_PATH >>$LOGFILE
 checkForErrors "Problem extracting $(stripURL $LIBNDS_URL)"
+
+msg " ...maxmod"
+tar xvf $(stripURL $MAXMOD_URL) -C $MAXMOD_PATH >>$LOGFILE
+checkForErrors "Problem extracting $(stripURL $MAXMOD_URL)"
+
+msg " ...default arm7"
+tar xvf $(stripURL $DEFAULT_ARM7_URL) -C $DEFAULT_ARM7_PATH >>$LOGFILE
+checkForErrors "Problem extracting $(stripURL $DEFAULT_ARM7_URL)"
 
 msg " ...libnds_examples"
 tar xvf $(stripURL $LIBNDS_EX_URL) -C $LIBNDS_EX_PATH >>$LOGFILE
@@ -154,29 +189,49 @@ msg " ...dswifi"
 tar xvf $(stripURL $DSWIFI_URL) -C $LIBNDS_PATH >>$LOGFILE
 checkForErrors "Problem extracting $(stripURL $DSWIFI_URL)"
 
-msg " ...NO\$GBA"
-unzip -o $(stripURL $NOCASHGBA_URL) -d $NOCASHGBA_PATH >>$LOGFILE
-checkForErrors "Problem extracting $(stripURL $NOCASHGBA_URL)"
 
-msg " ...uLibrary"
-unrar x $(stripURL $ULIB_URL) $ULIB_PATH >>$LOGFILE
-checkForErrors "Problem extracting $(stripURL $ULIB_URL)"
-createDir $ULIB_INC_PATH
-createDir $ULIB_LIB_PATH
-msg " ....moving some files around"
-cp $ULIB_PATH/uLibrary/Install/*h $ULIB_INC_PATH/. >>$LOGFILE
-checkForErrors "Problem copying some files (see logfile)"
-cp $ULIB_PATH/uLibrary/Install/*a $ULIB_LIB_PATH/. >>$LOGFILE
-checkForErrors "Problem copying some files (see logfile)"
-
-# For some reason, libnds named their default arm7 binary to 'basic.arm7' even though
-#  their example programs expect it to be called 'default.arm7'
-# Link it for compatibility:
-if [ ! -e "$LIBNDS_PATH/default.arm7" ]
+if [ $INSTALL_NOCASHGBA == "yes" ]
 then
-    msg "Linking $LIBNDS_PATH/basic.arm7 to $LIBNDS_PATH/default.arm7 for backwards compatibility"
-    ln -s $LIBNDS_PATH'/basic.arm7' $LIBNDS_PATH'/default.arm7' >>$LOGFILE
-    checkForErrors "Problem linking $NDS_PATH/basic.arm7 to $NDS_PATH/default.arm7"
+    msg " ...NO\$GBA"
+    unzip -o $(stripURL $NOCASHGBA_URL) -d $NOCASHGBA_PATH >>$LOGFILE
+    checkForErrors "Problem extracting $(stripURL $NOCASHGBA_URL)"
+fi
+
+if [ $INSTALL_PALIB == "yes" ]
+then
+    msg " ...PAlib"
+    7zr x  -o$PALIB_PATH -y $(stripURL $PALIB_URL) >>$LOGFILE
+    checkForErrors "Problem extracting $(stripURL $PALIB_URL)"
+    msg " ...Applying some fixes to PAlib"
+    sed -i 's/\.\.\\PA_BgStruct.h/..\/PA_BgStruct.h/' $PALIB_PATH/include/nds/arm9/PA_BgTiles.h
+    sed -i 's/echo\./echo ./' $PALIB_PATH/lib/PA_Makefile
+    msg " ...rebuilding PAlib"
+    pushd $PALIB_PATH/source
+    make clean
+    make
+    checkForErrors "Issues rebuilding PAlib"
+    popd >>$LOGFILE
+fi
+
+if [ $INSTALL_ULIB == "yes" ]
+then
+    msg " ...uLibrary"
+    7zr x  -o$ULIB_PATH -y $(stripURL $ULIB_URL) >>$LOGFILE
+    checkForErrors "Problem extracting $(stripURL $ULIB_URL)"
+    createDir $ULIB_INC_PATH
+    createDir $ULIB_LIB_PATH
+    msg " ....moving some files around"
+    cp $ULIB_PATH/uLibrary/Install/*h $ULIB_INC_PATH/. >>$LOGFILE
+    checkForErrors "Problem copying some files (see logfile)"
+    cp $ULIB_PATH/uLibrary/Install/*a $ULIB_LIB_PATH/. >>$LOGFILE
+    checkForErrors "Problem copying some files (see logfile)"
+
+    msg " ...rebuilding uLibrary"
+    pushd $ULIB_PATH/uLibrary/Source
+    make clean
+    make
+    checkForErrors "Issues rebuilding uLibrary"
+    popd >>$LOGFILE
 fi
 
 popd >>$LOGFILE
@@ -184,9 +239,17 @@ popd >>$LOGFILE
 echo
 msg "devkitPRO installed successfully!"
 msg
-msg "One last step: add/update the following lines in $HOME/.bashrc:"
+msg "One last step: add (or update) the following lines in $HOME/.bashrc:"
 echo "export DEVKITPRO=$DEVKITPRO_PATH"
 echo "export DEVKITARM=\$DEVKITPRO/devkitARM"
-echo "export PAPATH=\$DEVKITPRO/PAlib"
-echo "alias nds='wine $NOCASHGBA_PATH/NO\\\$GBA.EXE'"
+if [ $INSTALL_PALIB == "yes" ]
+then
+    echo "export PAPATH=\$DEVKITPRO/PAlib/lib"
+fi
+if [ $INSTALL_NOCASHGBA == "yes" ]
+then
+    echo "export NOCASHGBA=$NOCASHGBA_PATH_PRINT"
+    # Yes, that's seven backslashes in a row:
+    echo "alias nds=\"wine \$NOCASHGBA/NO\\\\\\\$GBA.EXE\""
+fi
 echo
