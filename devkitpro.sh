@@ -203,6 +203,10 @@ then
     7zr x  -o$PALIB_PATH -y $(stripURL $PALIB_URL) >>$LOGFILE
     checkForErrors "Problem extracting $(stripURL $PALIB_URL)"
     msg " ...Applying some fixes to PAlib"
+    pushd $PALIB_PATH
+    mv PAlib/* .
+    rmdir PAlib
+    popd
     sed -i 's/\.\.\\PA_BgStruct.h/..\/PA_BgStruct.h/' $PALIB_PATH/include/nds/arm9/PA_BgTiles.h
     sed -i 's/echo\./echo ./' $PALIB_PATH/lib/PA_Makefile
     msg " ...rebuilding PAlib"
