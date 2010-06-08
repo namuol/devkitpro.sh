@@ -13,21 +13,26 @@ INSTALL_ULIB="yes"
 INSTALL_NOCASHGBA="yes"
 
 DEVKITPRO_PATH=$HOME'/devkitpro'
-export DEVKITPRO=$DEVKITPRO_PATH
-export DEVKITARM=$DEVKITPRO'/devkitARM'
-export PAPATH=$DEVKITPRO'/PAlib/lib'
 LIBNDS_PATH=$DEVKITPRO_PATH'/libnds'
-MAXMOD_PATH=$LIBNDS_PATH
 DEFAULT_ARM7_PATH=$LIBNDS_PATH
 LIBNDS_EX_PATH=$LIBNDS_PATH'/examples'
+MAXMOD_PATH=$LIBNDS_PATH
+
 NOCASHGBA_PATH="$DEVKITPRO_PATH/nocashgba"
 NOCASHGBA_PATH_PRINT="\$DEVKITPRO/nocashgba"
+
 PALIB_PATH=$DEVKITPRO_PATH'/PAlib'
+
 ULIB_PATH=$DEVKITPRO_PATH
 ULIB_INC_PATH=$LIBNDS_PATH'/include/ulib'
 ULIB_LIB_PATH=$LIBNDS_PATH'/lib'
+
 DOWNLOAD_CACHE_PATH=$HOME'/.devkitpro_cache'
 LOGFILE=$PWD'/devkitpro-install.log'
+
+export DEVKITPRO=$DEVKITPRO_PATH
+export DEVKITARM=$DEVKITPRO'/devkitARM'
+export PAPATH=$DEVKITPRO'/PAlib/lib'
 
 # File URLS:
 if [ `uname -m` == "x86_64" ]
@@ -43,12 +48,13 @@ LIBNDS_URL="http://downloads.sourceforge.net/project/devkitpro/libnds/libnds-1.4
 MAXMOD_URL="http://downloads.sourceforge.net/project/devkitpro/maxmod/maxmod%201.0.6/maxmod-nds-1.0.6.tar.bz2"
 LIBNDS_EX_URL="http://downloads.sourceforge.net/project/devkitpro/examples/nds/nds-examples-20100313.tar.bz2"
 LIBFAT_URL="http://downloads.sourceforge.net/project/devkitpro/libfat/libfat-nds-1.0.7.tar.bz2"
+LIBFILESYSTEM_URL="http://downloads.sourceforge.net/project/devkitpro/filesystem/libfilesystem-0.9.6.tar.bz2"
 DSWIFI_URL="http://downloads.sourceforge.net/project/devkitpro/dswifi/dswifi-0.3.12.tar.bz2"
 NOCASHGBA_URL="http://nocash.emubase.de/no\$gba-w.zip"
 ULIB_URL="http://brunni.dev-fr.org/dl/nds/uLibrary.7z"
 
-red='\E[31;m'
-green='\E[32;m'
+red='\E[31;1m'
+green='\E[32;3m'
 
 function msg() {
     echo \-\> $1 >>$LOGFILE
@@ -59,16 +65,16 @@ function msg() {
 }
 
 function error() {
-    echo \-\>ERROR: $1 >>$LOGFILE
+    echo \-\> ERROR: $1 >>$LOGFILE
     echo -n -e "$red"
-    echo -n \-\>ERROR:\  
+    echo -n \-\> ERROR:\  
     tput sgr0
     echo $1 >&2
-    exit
 }
 
 function checkForErrors() {
-    if [ $? -ne 0 ]
+    ret=$?
+    if [ $ret -ne 0 ]
     then
         if [ -n "$1" ]
         then
@@ -76,7 +82,7 @@ function checkForErrors() {
         else
             error "Unexpected error: check $LOGFILE for details."
         fi
-        exit 1
+        exit $ret
     fi
 }
 
@@ -85,8 +91,6 @@ function download() {
     then
         wget -c $1
         checkForErrors "Failed to download file: $1."
-    else
-        msg "File already exists, not downloading: `stripURL $1`"
     fi
 }
 
@@ -142,6 +146,7 @@ download $MAXMOD_URL
 download $DEFAULT_ARM7_URL
 download $LIBNDS_EX_URL
 download $LIBFAT_URL
+download $LIBFILESYSTEM_URL
 download $DSWIFI_URL
 
 if [ $INSTALL_PALIB == "yes" ]
@@ -164,47 +169,60 @@ echo >>$LOGFILE
 msg "Extracting archives..."
 
 msg " ...devkitARM"
-tar xvf $(stripURL $DEVKITARM_URL) -C $DEVKITPRO_PATH >>$LOGFILE
-checkForErrors "Problem extracting $(stripURL $DEVKITARM_URL)"
-
+tmp=$(stripURL $DEVKITARM_URL)
+tar xvf $tmp -C $DEVKITPRO_PATH >>$LOGFILE
+checkForErrors "Problem extracting $tmp"
 
 msg " ...libnds"
-tar xvf $(stripURL $LIBNDS_URL) -C $LIBNDS_PATH >>$LOGFILE
-checkForErrors "Problem extracting $(stripURL $LIBNDS_URL)"
+tmp=$(stripURL $LIBNDS_URL)
+tar xvf $tmp -C $LIBNDS_PATH >>$LOGFILE
+checkForErrors "Problem extracting $tmp"
 
 msg " ...maxmod"
-tar xvf $(stripURL $MAXMOD_URL) -C $MAXMOD_PATH >>$LOGFILE
-checkForErrors "Problem extracting $(stripURL $MAXMOD_URL)"
+tmp=$(stripURL $MAXMOD_URL)
+tar xvf $tmp -C $MAXMOD_PATH >>$LOGFILE
+checkForErrors "Problem extracting $tmp"
 
 msg " ...default arm7"
-tar xvf $(stripURL $DEFAULT_ARM7_URL) -C $DEFAULT_ARM7_PATH >>$LOGFILE
-checkForErrors "Problem extracting $(stripURL $DEFAULT_ARM7_URL)"
+tmp=$(stripURL $DEFAULT_ARM7_URL)
+tar xvf $tmp -C $DEFAULT_ARM7_PATH >>$LOGFILE
+checkForErrors "Problem extracting $tmp"
 
 msg " ...libnds_examples"
-tar xvf $(stripURL $LIBNDS_EX_URL) -C $LIBNDS_EX_PATH >>$LOGFILE
-checkForErrors "Problem extracting $(stripURL $LIBNDS_EX_URL)"
+tmp=$(stripURL $LIBNDS_EX_URL)
+tar xvf $tmp -C $LIBNDS_EX_PATH >>$LOGFILE
+checkForErrors "Problem extracting $tmp"
 
 msg " ...libfat"
-tar xvf $(stripURL $LIBFAT_URL) -C $LIBNDS_PATH >>$LOGFILE
-checkForErrors "Problem extracting $(stripURL $LIBFAT_URL)"
+tmp=$(stripURL $LIBFAT_URL)
+tar xvf $tmp -C $LIBNDS_PATH >>$LOGFILE
+checkForErrors "Problem extracting $tmp"
+
+msg " ...libfilesystem"
+tmp=$(stripURL $LIBFILESYSTEM_URL)
+tar xvf $tmp -C $LIBNDS_PATH >>$LOGFILE
+checkForErrors "Problem extracting $tmp"
 
 msg " ...dswifi"
-tar xvf $(stripURL $DSWIFI_URL) -C $LIBNDS_PATH >>$LOGFILE
-checkForErrors "Problem extracting $(stripURL $DSWIFI_URL)"
+tmp=$(stripURL $DSWIFI_URL)
+tar xvf $tmp -C $LIBNDS_PATH >>$LOGFILE
+checkForErrors "Problem extracting $tmp"
 
 
 if [ $INSTALL_NOCASHGBA == "yes" ]
 then
     msg " ...NO\$GBA"
-    unzip -o $(stripURL $NOCASHGBA_URL) -d $NOCASHGBA_PATH >>$LOGFILE
-    checkForErrors "Problem extracting $(stripURL $NOCASHGBA_URL)"
+    tmp=$(stripURL $NOCASHGBA_URL)
+    unzip -o $tmp -d $NOCASHGBA_PATH >>$LOGFILE
+    checkForErrors "Problem extracting $tmp"
 fi
 
 if [ $INSTALL_PALIB == "yes" ]
 then
     msg " ...PAlib"
-    7zr x  -o$PALIB_PATH -y $(stripURL $PALIB_URL) >>$LOGFILE
-    checkForErrors "Problem extracting $(stripURL $PALIB_URL)"
+    tmp=$(stripURL $PALIB_URL)
+    7zr x  -o$PALIB_PATH -y $tmp >>$LOGFILE
+    checkForErrors "Problem extracting $tmp"
     msg " ...Applying some fixes to PAlib"
     pushd $PALIB_PATH
     mv PAlib/* .
@@ -223,8 +241,9 @@ fi
 if [ $INSTALL_ULIB == "yes" ]
 then
     msg " ...uLibrary"
-    7zr x  -o$ULIB_PATH -y $(stripURL $ULIB_URL) >>$LOGFILE
-    checkForErrors "Problem extracting $(stripURL $ULIB_URL)"
+    tmp=$(stripURL $ULIB_URL)
+    7zr x  -o$ULIB_PATH -y $tmp >>$LOGFILE
+    checkForErrors "Problem extracting $tmp"
     createDir $ULIB_INC_PATH
     createDir $ULIB_LIB_PATH
     msg " ....moving some files around"
