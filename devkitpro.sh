@@ -111,7 +111,7 @@ function createDir() {
 
 
 which 7zr &>/dev/null
-checkForErrors "The program \"7zr\" is required to run this script."
+checkForErrors "The program \"7zr\" is required to run this script. (NOTE: You may want to try installing the 'p7zip' package)"
 
 which unzip &>/dev/null
 checkForErrors "The program \"unzip\" is required to run this script."
