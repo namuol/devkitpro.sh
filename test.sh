@@ -6,7 +6,7 @@
 
 if [ -z $DEVKITPRO ]
 then
-    export DEVKITPRO=/home/louman/devkitpro
+    export DEVKITPRO=$HOME/devkitpro
     export DEVKITARM=$DEVKITPRO/devkitARM
     export PAPATH=$DEVKITPRO/PAlib/lib
 fi
