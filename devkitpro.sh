@@ -246,17 +246,18 @@ then
     checkForErrors "Problem extracting $tmp"
     createDir $ULIB_INC_PATH
     createDir $ULIB_LIB_PATH
-    msg " ....moving some files around"
-    cp $ULIB_PATH/uLibrary/Install/*h $ULIB_INC_PATH/. >>$LOGFILE
-    checkForErrors "Problem copying some files (see logfile)"
-    cp $ULIB_PATH/uLibrary/Install/*a $ULIB_LIB_PATH/. >>$LOGFILE
-    checkForErrors "Problem copying some files (see logfile)"
 
     msg " ...rebuilding uLibrary"
     pushd $ULIB_PATH/uLibrary/Source
     make clean
     make
     checkForErrors "Issues rebuilding uLibrary"
+
+    msg " ....moving some files around"
+    cp $ULIB_PATH/uLibrary/Source/*h $ULIB_INC_PATH/. >>$LOGFILE
+    checkForErrors "Problem copying some files (see logfile)"
+    cp $ULIB_PATH/uLibrary/Source/*a $ULIB_LIB_PATH/. >>$LOGFILE
+    checkForErrors "Problem copying some files (see logfile)"
     popd >>$LOGFILE
 fi
 
