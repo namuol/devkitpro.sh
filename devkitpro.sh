@@ -254,9 +254,9 @@ then
     checkForErrors "Issues rebuilding uLibrary"
 
     msg " ....moving some files around"
-    cp $ULIB_PATH/uLibrary/Source/*h $ULIB_INC_PATH/. >>$LOGFILE
+    cp $ULIB_PATH/uLibrary/Source/*.h $ULIB_INC_PATH/. >>$LOGFILE
     checkForErrors "Problem copying some files (see logfile)"
-    cp $ULIB_PATH/uLibrary/Source/*a $ULIB_LIB_PATH/. >>$LOGFILE
+    cp $ULIB_PATH/uLibrary/Source/*.a $ULIB_LIB_PATH/. >>$LOGFILE
     checkForErrors "Problem copying some files (see logfile)"
     popd >>$LOGFILE
 fi
