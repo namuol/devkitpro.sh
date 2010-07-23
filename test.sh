@@ -11,6 +11,11 @@ then
     export PAPATH=$DEVKITPRO/PAlib/lib
 fi
 
+if [ -z $LOGFILE ]
+then
+    export LOGFILE=devkitpro-test.log
+fi
+
 red='\E[31;1m'
 green='\E[32;3m'
 
@@ -28,7 +33,7 @@ function checkForErrors() {
     then
         if [ -n "$1" ]
         then
-            error "$@"
+            error "Trouble building $@. See above output for details."
         else
             error "Unexpected error, aborting!"
         fi
@@ -39,14 +44,22 @@ function checkForErrors() {
 cd $DEVKITPRO/libnds/examples
 make clean
 make
-checkForErrors "Trouble building libnds examples. See above output for details."
+checkForErrors "libnds"
 
 cd $DEVKITPRO/PAlib/examples/Demos/Frisbee/Frisbee3
 make clean
 make
-checkForErrors "Trouble building PAlib examples. See above output for details."
+checkForErrors "PAlib"
 
 cd $DEVKITPRO/uLibrary/Examples/Example06
 make clean
 make
-checkForErrors "Trouble building uLibrary examples. See above output for details."
+checkForErrors "uLibrary"
+
+cd /tmp
+rm -rf dstrosmash-test
+bzr branch http://lmn.us.to/bzr/nds/dstrosmash dstrosmash-test
+cd dstrosmash-test
+make clean
+make
+checkForErrors "DSTROSMASH"
