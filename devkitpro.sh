@@ -2,8 +2,8 @@
 
 #
 # devkitpro.sh - simple script to set up a devkitARM/libnds/PALib/uLibrary in Linux.
-# Maintained by Louis Acresti - louis.acresti@gmail.com
-# Last URL update: May 31, 2010
+# Maintained by Louis Acresti - louis.acresti@gmail.com - http://lmn.us.to/
+# Last URL update: July 25, 2010
 #
 
 # Edit the following properties to your own taste:
@@ -42,11 +42,11 @@ else
   # Default behavior
   DEVKITARM_URL="http://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r31-i686-linux.tar.bz2"
 fi
-DEFAULT_ARM7_URL="http://downloads.sourceforge.net/project/devkitpro/default%20arm7/default_arm7-0.5.12.tar.bz2"
+DEFAULT_ARM7_URL="http://downloads.sourceforge.net/project/devkitpro/default%20arm7/default_arm7-0.5.13.tar.bz2"
 PALIB_URL="http://palib-dev.com/PAlib0912XX_Beta.7z"
-LIBNDS_URL="http://downloads.sourceforge.net/project/devkitpro/libnds/libnds-1.4.3.tar.bz2"
+LIBNDS_URL="http://downloads.sourceforge.net/project/devkitpro/libnds/libnds-1.4.4.tar.bz2"
 MAXMOD_URL="http://downloads.sourceforge.net/project/devkitpro/maxmod/maxmod%201.0.6/maxmod-nds-1.0.6.tar.bz2"
-LIBNDS_EX_URL="http://downloads.sourceforge.net/project/devkitpro/examples/nds/nds-examples-20100313.tar.bz2"
+LIBNDS_EX_URL="http://downloads.sourceforge.net/project/devkitpro/examples/nds/nds-examples-20100724.tar.bz2"
 LIBFAT_URL="http://downloads.sourceforge.net/project/devkitpro/libfat/libfat-nds-1.0.7.tar.bz2"
 LIBFILESYSTEM_URL="http://downloads.sourceforge.net/project/devkitpro/filesystem/libfilesystem-0.9.6.tar.bz2"
 DSWIFI_URL="http://downloads.sourceforge.net/project/devkitpro/dswifi/dswifi-0.3.12.tar.bz2"
@@ -230,6 +230,7 @@ then
     popd
     sed -i 's/\.\.\\PA_BgStruct.h/..\/PA_BgStruct.h/' $PALIB_PATH/include/nds/arm9/PA_BgTiles.h
     sed -i 's/echo\./echo ./' $PALIB_PATH/lib/PA_Makefile
+    sed -i 's/_user_data\.//' $PALIB_PATH/source/arm9/source/PA_RTC.c
     msg " ...rebuilding PAlib"
     pushd $PALIB_PATH/source
     make clean
