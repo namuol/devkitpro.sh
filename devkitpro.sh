@@ -42,7 +42,7 @@ else
   # Default behavior
   DEVKITARM_URL="http://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r31-i686-linux.tar.bz2"
 fi
-DEFAULT_ARM7_URL="http://downloads.sourceforge.net/project/devkitpro/default%20arm7/default_arm7-0.5.13.tar.bz2"
+DEFAULT_ARM7_URL="http://downloads.sourceforge.net/project/devkitpro/default%20arm7/default_arm7-0.5.14.tar.bz2"
 PALIB_URL="http://palib-dev.com/PAlib0912XX_Beta.7z"
 LIBNDS_URL="http://downloads.sourceforge.net/project/devkitpro/libnds/libnds-1.4.5.tar.bz2"
 MAXMOD_URL="http://downloads.sourceforge.net/project/devkitpro/maxmod/maxmod%201.0.6/maxmod-nds-1.0.6.tar.bz2"
