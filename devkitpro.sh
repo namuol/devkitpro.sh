@@ -3,7 +3,7 @@
 #
 # devkitpro.sh - simple script to set up a devkitARM/libnds/PALib/uLibrary in Linux.
 # Maintained by Louis Acresti - louis.acresti@gmail.com - http://lmn.us.to/
-# Last URL update: July 25, 2010
+# Last URL update: July 28, 2010
 #
 
 # Edit the following properties to your own taste:
