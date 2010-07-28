@@ -44,7 +44,7 @@ else
 fi
 DEFAULT_ARM7_URL="http://downloads.sourceforge.net/project/devkitpro/default%20arm7/default_arm7-0.5.13.tar.bz2"
 PALIB_URL="http://palib-dev.com/PAlib0912XX_Beta.7z"
-LIBNDS_URL="http://downloads.sourceforge.net/project/devkitpro/libnds/libnds-1.4.4.tar.bz2"
+LIBNDS_URL="http://downloads.sourceforge.net/project/devkitpro/libnds/libnds-1.4.5.tar.bz2"
 MAXMOD_URL="http://downloads.sourceforge.net/project/devkitpro/maxmod/maxmod%201.0.6/maxmod-nds-1.0.6.tar.bz2"
 LIBNDS_EX_URL="http://downloads.sourceforge.net/project/devkitpro/examples/nds/nds-examples-20100724.tar.bz2"
 LIBFAT_URL="http://downloads.sourceforge.net/project/devkitpro/libfat/libfat-nds-1.0.7.tar.bz2"
