@@ -57,7 +57,7 @@ make
 checkForErrors "uLibrary"
 
 cd /tmp
-bzr branch http://lmn.us.to/bzr/nds/dstrosmash dstrosmash-test
+bzr branch http://lmn.us.to/bzrf/nds/dstrosmash dstrosmash-test
 cd dstrosmash-test
 make clean
 make
