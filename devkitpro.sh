@@ -42,11 +42,11 @@ else
   # Default behavior
   DEVKITARM_URL="http://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r32-i686-linux.tar.bz2"
 fi
-DEFAULT_ARM7_URL="http://downloads.sourceforge.net/project/devkitpro/default%20arm7/default_arm7-0.5.19.tar.bz2"
+DEFAULT_ARM7_URL="http://downloads.sourceforge.net/project/devkitpro/default%20arm7/default_arm7-0.5.20.tar.bz2"
 PALIB_URL="http://palib-dev.com/PAlib100707.7z"
-LIBNDS_URL="http://downloads.sourceforge.net/project/devkitpro/libnds/libnds-1.4.10.tar.bz2"
+LIBNDS_URL="http://downloads.sourceforge.net/project/devkitpro/libnds/libnds-1.5.0.tar.bz2"
 MAXMOD_URL="http://downloads.sourceforge.net/project/devkitpro/maxmod/maxmod-nds-1.0.6.tar.bz2"
-LIBNDS_EX_URL="http://downloads.sourceforge.net/project/devkitpro/examples/nds/nds-examples-20110201.tar.bz2"
+LIBNDS_EX_URL="http://downloads.sourceforge.net/project/devkitpro/examples/nds/nds-examples-20110214.tar.bz2"
 LIBFAT_URL="http://downloads.sourceforge.net/project/devkitpro/libfat/libfat-nds-1.0.9.tar.bz2"
 LIBFILESYSTEM_URL="http://downloads.sourceforge.net/project/devkitpro/filesystem/libfilesystem-0.9.9.tar.bz2"
 DSWIFI_URL="http://downloads.sourceforge.net/project/devkitpro/dswifi/dswifi-0.3.13.tar.bz2"
@@ -248,6 +248,10 @@ then
     createDir $ULIB_INC_PATH
     createDir $ULIB_LIB_PATH
 
+    msg ".....applying a patch"
+
+    sed '337i     DynamicArraySet( &glGlob->texturePtrs, glGlob->activeTexture, ulTextureParams[name] );' $ULIB_PATH/uLibrary/Source/texVramManager.c | sed '336d' > $ULIB_PATH/uLibrary/Source/texVramManager.c
+
     msg " ...rebuilding uLibrary"
     pushd $ULIB_PATH/uLibrary/Source
     make clean
@@ -259,6 +263,7 @@ then
     checkForErrors "Problem copying some files (see logfile)"
     cp $ULIB_PATH/uLibrary/Source/*.a $ULIB_LIB_PATH/. >>$LOGFILE
     checkForErrors "Problem copying some files (see logfile)"
+
     popd >>$LOGFILE
 fi
 
@@ -281,3 +286,5 @@ then
     echo "alias nds=\"wine \$NOCASHGBA/NO\\\\\\\$GBA.EXE\""
 fi
 echo
+
+
