@@ -44,17 +44,17 @@ function checkForErrors() {
 cd $DEVKITPRO/libnds/examples
 make clean
 make
-checkForErrors "libnds"
+checkForErrors "libnds Examples"
 
 cd $DEVKITPRO/PAlib/examples/Demos/Frisbee/Frisbee3
 make clean
 make
-checkForErrors "PAlib"
+checkForErrors "PAlib Examples"
 
 cd $DEVKITPRO/uLibrary/Examples/Example06
 make clean
 make
-checkForErrors "uLibrary"
+checkForErrors "uLibrary Examples"
 
 cd /tmp
 bzr branch http://lmn.us.to/bzrf/nds/dstrosmash dstrosmash-test
