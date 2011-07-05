@@ -37,16 +37,16 @@ export PAPATH=$DEVKITPRO'/PAlib/lib'
 # File URLS:
 if [ `uname -m` == "x86_64" ]
 then
-  DEVKITARM_URL="http://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r33-x86_64-linux.tar.bz2"
+  DEVKITARM_URL="http://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r34-x86_64-linux.tar.bz2"
 else
   # Default behavior
-  DEVKITARM_URL="http://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r33-i686-linux.tar.bz2"
+  DEVKITARM_URL="http://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r34-i686-linux.tar.bz2"
 fi
-DEFAULT_ARM7_URL="http://downloads.sourceforge.net/project/devkitpro/default%20arm7/default_arm7-0.5.20.tar.bz2"
+DEFAULT_ARM7_URL="http://downloads.sourceforge.net/project/devkitpro/default%20arm7/default_arm7-0.5.21.tar.bz2"
 PALIB_URL="http://palib-dev.com/PAlib100707.7z"
-LIBNDS_URL="http://downloads.sourceforge.net/project/devkitpro/libnds/libnds-1.5.0.tar.bz2"
+LIBNDS_URL="http://downloads.sourceforge.net/project/devkitpro/libnds/libnds-1.5.1.tar.bz2"
 MAXMOD_URL="http://downloads.sourceforge.net/project/devkitpro/maxmod/maxmod-nds-1.0.6.tar.bz2"
-LIBNDS_EX_URL="http://downloads.sourceforge.net/project/devkitpro/examples/nds/nds-examples-20110214.tar.bz2"
+LIBNDS_EX_URL="http://downloads.sourceforge.net/project/devkitpro/examples/nds/nds-examples-20110703.tar.bz2"
 LIBFAT_URL="http://downloads.sourceforge.net/project/devkitpro/libfat/libfat-nds-1.0.9.tar.bz2"
 LIBFILESYSTEM_URL="http://downloads.sourceforge.net/project/devkitpro/filesystem/libfilesystem-0.9.9.tar.bz2"
 DSWIFI_URL="http://downloads.sourceforge.net/project/devkitpro/dswifi/dswifi-0.3.13.tar.bz2"
