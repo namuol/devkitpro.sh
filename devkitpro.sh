@@ -248,10 +248,12 @@ then
     createDir $ULIB_INC_PATH
     createDir $ULIB_LIB_PATH
 
-    msg ".....applying a patch"
+    msg "...applying some patches"
     
     sed '337i     DynamicArraySet( &glGlob->texturePtrs, glGlob->activeTexture, ulTextureParams[name] );' $ULIB_PATH/uLibrary/Source/texVramManager.c | sed '336d' > $DOWNLOAD_CACHE_PATH/texVramManager.c
     cp $DOWNLOAD_CACHE_PATH/texVramManager.c $ULIB_PATH/uLibrary/Source/texVramManager.c
+    rm $ULIB_PATH/uLibrary/Source/vfile/vfsGBFS.c
+    touch $ULIB_PATH/uLibrary/Source/vfile/vfsGBFS.c
 
     msg " ...rebuilding uLibrary"
     pushd $ULIB_PATH/uLibrary/Source
