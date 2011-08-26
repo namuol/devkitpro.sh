@@ -2,56 +2,13 @@
 
 #
 # devkitpro.sh - simple script to set up a devkitARM/libnds/PALib/uLibrary in Linux.
-# Maintained by Louis Acresti - louis.acresti@gmail.com - http://lmn.us.to/
-# Last URL update: July 28, 2010
-#
+# Maintained by Louis Acresti:
+# - louis.acresti@gmail.com
+# - http://github.com/namuol/
+# - http://lmn.us.to/
 
 # Edit the following properties to your own taste:
 #  NOTE: DIRECTORY PATHS MUST BE ABSOLUTE
-INSTALL_PALIB="yes"
-INSTALL_ULIB="yes"
-INSTALL_NOCASHGBA="yes"
-
-DEVKITPRO_PATH=$HOME'/devkitpro'
-LIBNDS_PATH=$DEVKITPRO_PATH'/libnds'
-DEFAULT_ARM7_PATH=$LIBNDS_PATH
-LIBNDS_EX_PATH=$LIBNDS_PATH'/examples'
-MAXMOD_PATH=$LIBNDS_PATH
-
-NOCASHGBA_PATH="$DEVKITPRO_PATH/nocashgba"
-NOCASHGBA_PATH_PRINT="\$DEVKITPRO/nocashgba"
-
-PALIB_PATH=$DEVKITPRO_PATH'/PAlib'
-
-ULIB_PATH=$DEVKITPRO_PATH
-ULIB_INC_PATH=$LIBNDS_PATH'/include/ulib'
-ULIB_LIB_PATH=$LIBNDS_PATH'/lib'
-
-DOWNLOAD_CACHE_PATH=$HOME'/.devkitpro_cache'
-LOGFILE=$PWD'/devkitpro-install.log'
-
-export DEVKITPRO=$DEVKITPRO_PATH
-export DEVKITARM=$DEVKITPRO'/devkitARM'
-export PAPATH=$DEVKITPRO'/PAlib/lib'
-
-# File URLS:
-if [ `uname -m` == "x86_64" ]
-then
-  DEVKITARM_URL="http://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r34-x86_64-linux.tar.bz2"
-else
-  # Default behavior
-  DEVKITARM_URL="http://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r34-i686-linux.tar.bz2"
-fi
-DEFAULT_ARM7_URL="http://downloads.sourceforge.net/project/devkitpro/default%20arm7/default_arm7-0.5.22.tar.bz2"
-PALIB_URL="http://palib-dev.com/PAlib100707.7z"
-LIBNDS_URL="http://downloads.sourceforge.net/project/devkitpro/libnds/libnds-1.5.3.tar.bz2"
-MAXMOD_URL="http://downloads.sourceforge.net/project/devkitpro/maxmod/maxmod-nds-1.0.6.tar.bz2"
-LIBNDS_EX_URL="http://downloads.sourceforge.net/project/devkitpro/examples/nds/nds-examples-20110703.tar.bz2"
-LIBFAT_URL="http://downloads.sourceforge.net/project/devkitpro/libfat/libfat-nds-1.0.10.tar.bz2"
-LIBFILESYSTEM_URL="http://downloads.sourceforge.net/project/devkitpro/filesystem/libfilesystem-0.9.9.tar.bz2"
-DSWIFI_URL="http://downloads.sourceforge.net/project/devkitpro/dswifi/dswifi-0.3.13.tar.bz2"
-NOCASHGBA_URL="http://nocash.emubase.de/no\$gba-w.zip"
-ULIB_URL="http://brunni.dev-fr.org/dl/nds/uLibrary.7z"
 
 red='\E[31;1m'
 green='\E[32;3m'
@@ -109,6 +66,60 @@ function createDir() {
     fi
 }
 
+UPDATE_URL="https://raw.github.com/namuol/devkitpro.sh/master/devkitpro.sh"
+
+wget UPDATE_URL
+
+INSTALL_PALIB="yes"
+INSTALL_ULIB="yes"
+INSTALL_NOCASHGBA="yes"
+
+DEVKITPRO_PATH=$HOME'/devkitpro'
+LIBNDS_PATH=$DEVKITPRO_PATH'/libnds'
+DEFAULT_ARM7_PATH=$LIBNDS_PATH
+LIBNDS_EX_PATH=$LIBNDS_PATH'/examples'
+MAXMOD_PATH=$LIBNDS_PATH
+
+NOCASHGBA_PATH="$DEVKITPRO_PATH/nocashgba"
+NOCASHGBA_PATH_PRINT="\$DEVKITPRO/nocashgba"
+
+PALIB_PATH=$DEVKITPRO_PATH'/PAlib'
+
+ULIB_PATH=$DEVKITPRO_PATH
+ULIB_INC_PATH=$LIBNDS_PATH'/include/ulib'
+ULIB_LIB_PATH=$LIBNDS_PATH'/lib'
+
+DOWNLOAD_CACHE_PATH=$HOME'/.devkitpro_cache'
+LOGFILE=$PWD'/devkitpro-install.log'
+
+export DEVKITPRO=$DEVKITPRO_PATH
+export DEVKITARM=$DEVKITPRO'/devkitARM'
+export PAPATH=$DEVKITPRO'/PAlib/lib'
+
+# File URLS:
+if [ `uname -m` == "x86_64" ]
+then
+  DEVKITARM_URL="http://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r34-x86_64-linux.tar.bz2"
+else
+  # Default behavior
+  DEVKITARM_URL="http://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r34-i686-linux.tar.bz2"
+fi
+DEFAULT_ARM7_URL="http://downloads.sourceforge.net/project/devkitpro/default%20arm7/default_arm7-0.5.23.tar.bz2"
+PALIB_URL="http://palib-dev.com/PAlib100707.7z"
+LIBNDS_URL="http://downloads.sourceforge.net/project/devkitpro/libnds/libnds-1.5.4.tar.bz2"
+MAXMOD_URL="http://downloads.sourceforge.net/project/devkitpro/maxmod/maxmod-nds-1.0.6.tar.bz2"
+LIBNDS_EX_URL="http://downloads.sourceforge.net/project/devkitpro/examples/nds/nds-examples-20110703.tar.bz2"
+LIBFAT_URL="http://downloads.sourceforge.net/project/devkitpro/libfat/libfat-nds-1.0.10.tar.bz2"
+LIBFILESYSTEM_URL="http://downloads.sourceforge.net/project/devkitpro/filesystem/libfilesystem-0.9.9.tar.bz2"
+DSWIFI_URL="http://downloads.sourceforge.net/project/devkitpro/dswifi/dswifi-0.3.13.tar.bz2"
+NOCASHGBA_URL="http://nocash.emubase.de/no\$gba-w.zip"
+ULIB_URL="http://brunni.dev-fr.org/dl/nds/uLibrary.7z"
+
+which wget &>/dev/null
+checkForErrors "The program \"wget\" is required to run this script."
+
+which tar &>/dev/null
+checkForErrors "The program \"tar\" is required to run this script."
 
 which 7zr &>/dev/null
 checkForErrors "The program \"7zr\" is required to run this script. (NOTE: You may want to try installing the 'p7zip' package)"

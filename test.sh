@@ -27,6 +27,10 @@ function error() {
     echo $1 >&2
 }
 
+function cleanup() {
+    rm -rf /tmp/dstrosmash-test
+}
+
 function checkForErrors() {
     ret=$?
     if [ $ret -ne 0 ]
@@ -37,6 +41,7 @@ function checkForErrors() {
         else
             error "Unexpected error, aborting!"
         fi
+        cleanup
         exit $ret
     fi
 }
@@ -57,9 +62,9 @@ make
 checkForErrors "uLibrary Examples"
 
 cd /tmp
-bzr branch http://lmn.us.to/bzrf/nds/dstrosmash dstrosmash-test
+git clone git://github.com/namuol/dstrosmash.git dstrosmash-test
 cd dstrosmash-test
 make clean
 make
 checkForErrors "DSTROSMASH"
-rm -rf dstrosmash-test
+cleanup
