@@ -1,4 +1,4 @@
-#!python
+#!/usr/bin/python
 from sys import stderr,exit
 from re import match,compile
 from urllib import quote,unquote
