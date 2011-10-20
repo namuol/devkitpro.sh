@@ -99,10 +99,10 @@ export PAPATH=$DEVKITPRO'/PAlib/lib'
 # File URLS:
 if [ `uname -m` == "x86_64" ]
 then
-  DEVKITARM_URL="http://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r34-x86_64-linux.tar.bz2"
+  DEVKITARM_URL="http://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r36-x86_64-linux.tar.bz2"
 else
   # Default behavior
-  DEVKITARM_URL="http://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r34-i686-linux.tar.bz2"
+  DEVKITARM_URL="http://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r36-i686-linux.tar.bz2"
 fi
 DEFAULT_ARM7_URL="http://downloads.sourceforge.net/project/devkitpro/default%20arm7/default_arm7-0.5.23.tar.bz2"
 PALIB_URL="http://palib-dev.com/PAlib100707.7z"
