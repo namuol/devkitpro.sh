@@ -66,11 +66,12 @@ function createDir() {
     fi
 }
 
-UPDATE_URL="https://raw.github.com/namuol/devkitpro.sh/master/devkitpro.sh"
+# For future auto-updates...
+#UPDATE_URL="https://raw.github.com/namuol/devkitpro.sh/master/devkitpro.sh"
+#
+#wget UPDATE_URL
 
-wget UPDATE_URL
-
-INSTALL_PALIB="yes"
+INSTALL_PALIB="no"
 INSTALL_ULIB="yes"
 INSTALL_NOCASHGBA="yes"
 
